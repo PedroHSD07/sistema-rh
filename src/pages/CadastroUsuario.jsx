@@ -1,23 +1,15 @@
 import { useState } from "react";
-
-const Input = (props) => (
-  <input
-    {...props}
-    className="border px-3 py-2 rounded w-full text-sm text-gray-700"
-  />
-);
-
-const Button = ({ children, ...props }) => (
-  <button
-    {...props}
-    className={`px-4 py-2 rounded text-white ${props.variant === "outline"
-      ? "bg-gray-500 hover:bg-gray-600"
-      : "bg-blue-600 hover:bg-blue-700"
-      }`}
-  >
-    {children}
-  </button>
-);
+import { 
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Card,
+  Navbar,
+  Nav,
+  Badge
+} from 'react-bootstrap';
 
 export default function CadastroUsuario() {
   const [form, setForm] = useState({});
@@ -27,77 +19,208 @@ export default function CadastroUsuario() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      <aside className="w-64 bg-gray-900 text-white p-4">
-        <h1 className="text-xl font-bold mb-4">Gestão de pessoas</h1>
-        <Button className="w-full bg-gray-700 hover:bg-gray-800">Início</Button>
-      </aside>
+    <Container fluid className="px-0">
+      <Row className="g-0">
+        {/* Sidebar */}
+        <Col md={2} className="bg-dark text-white vh-100 p-3">
+          <Navbar.Brand className="text-white mb-4">Gestão de pessoas</Navbar.Brand>
+          <Nav className="flex-column">
+            <Nav.Link className="text-white">
+              <Button variant="secondary" className="w-100">Início</Button>
+            </Nav.Link>
+          </Nav>
+        </Col>
 
-      <main className="flex-1 overflow-auto p-8 space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <p className="text-sm text-gray-500">Empresa</p>
-            <p className="font-medium">FICTITIUS SERVICE COMPANY</p>
-            <p className="text-sm text-gray-500">Departamento</p>
-            <p className="font-medium">SEGURANÇA PATRIMONIAL</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="text-sm text-gray-500">Thanya S Briel</p>
-              <p className="font-medium">GESTOR</p>
-            </div>
-            <Button className="bg-red-600 hover:bg-red-700">Sair</Button>
-          </div>
-        </div>
+        {/* Main Content */}
+        <Col md={10} className="p-4">
+          {/* Header */}
+          <Row className="mb-4 justify-content-between align-items-center">
+            <Col md={6}>
+              <p className="text-muted mb-0">Empresa</p>
+              <h5 className="mb-3">FICTITIUS SERVICE COMPANY</h5>
+              <p className="text-muted mb-0">Departamento</p>
+              <h5>SEGURANÇA PATRIMONIAL</h5>
+            </Col>
+            <Col md={6} className="text-end">
+              <div className="d-flex justify-content-end align-items-center gap-3">
+                <div>
+                  <p className="text-muted mb-0">Thanya S Briel</p>
+                  <Badge bg="info">GESTOR</Badge>
+                </div>
+                <Button variant="danger">Sair</Button>
+              </div>
+            </Col>
+          </Row>
 
-        {/* DADOS PESSOAIS */}
-        <section className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h2 className="text-lg font-semibold">Dados Pessoais</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <Input name="nome" placeholder="Nome completo" onChange={handleChange} />
-            <Input name="nacionalidade" placeholder="Nacionalidade" onChange={handleChange} />
-            <Input name="estadoCivil" placeholder="Estado Civil" onChange={handleChange} />
-            <Input name="sexo" placeholder="Sexo" onChange={handleChange} />
-          </div>
-        </section>
+          {/* DADOS PESSOAIS */}
+          <Card className="mb-4">
+            <Card.Body>
+              <Card.Title>Dados Pessoais</Card.Title>
+              <Row>
+                <Col md={3} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="nome" 
+                      placeholder="Nome completo" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={3} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="nacionalidade" 
+                      placeholder="Nacionalidade" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={3} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="estadoCivil" 
+                      placeholder="Estado Civil" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={3} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="sexo" 
+                      placeholder="Sexo" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
 
-        {/* CONTATO */}
-        <section className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h2 className="text-lg font-semibold">Contato</h2>
-          <div className="grid grid-cols-2 gap-4">
-            <Input name="telefone" placeholder="Telefone" onChange={handleChange} />
-            <Input name="email" placeholder="E-mail" onChange={handleChange} />
-          </div>
-        </section>
+          {/* CONTATO */}
+          <Card className="mb-4">
+            <Card.Body>
+              <Card.Title>Contato</Card.Title>
+              <Row>
+                <Col md={6} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="telefone" 
+                      placeholder="Telefone" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={6} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="email" 
+                      placeholder="E-mail" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
 
-        {/* DADOS BANCÁRIOS */}
-        <section className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h2 className="text-lg font-semibold">Dados Bancários</h2>
-          <div className="grid grid-cols-3 gap-4">
-            <Input name="banco" placeholder="Banco" onChange={handleChange} />
-            <Input name="agencia" placeholder="Agência" onChange={handleChange} />
-            <Input name="conta" placeholder="Conta" onChange={handleChange} />
-          </div>
-        </section>
+          {/* DADOS BANCÁRIOS */}
+          <Card className="mb-4">
+            <Card.Body>
+              <Card.Title>Dados Bancários</Card.Title>
+              <Row>
+                <Col md={4} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="banco" 
+                      placeholder="Banco" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="agencia" 
+                      placeholder="Agência" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="conta" 
+                      placeholder="Conta" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
 
-        {/* SALARIAL */}
-        <section className="bg-white rounded-lg shadow p-6 space-y-4">
-          <h2 className="text-lg font-semibold">Informações Salariais</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <Input name="salario" placeholder="Salário que recebe" onChange={handleChange} />
-            <Input name="complemento" placeholder="Complemento" onChange={handleChange} />
-            <Input name="salarioAdicional" placeholder="Salário adicional" onChange={handleChange} />
-            <Input name="reajuste" placeholder="Data do último reajuste" onChange={handleChange} />
-            <Input name="tipoSalario" placeholder="Tipo do salário" onChange={handleChange} />
-          </div>
-        </section>
+          {/* SALARIAL */}
+          <Card className="mb-4">
+            <Card.Body>
+              <Card.Title>Informações Salariais</Card.Title>
+              <Row>
+                <Col md={4} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="salario" 
+                      placeholder="Salário que recebe" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="complemento" 
+                      placeholder="Complemento" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="salarioAdicional" 
+                      placeholder="Salário adicional" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="reajuste" 
+                      placeholder="Data do último reajuste" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+                <Col md={4} className="mb-3">
+                  <Form.Group>
+                    <Form.Control 
+                      name="tipoSalario" 
+                      placeholder="Tipo do salário" 
+                      onChange={handleChange} 
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
 
-        {/* AÇÕES */}
-        <div className="flex justify-end gap-4">
-          <Button variant="outline">Descartar</Button>
-          <Button>Salvar</Button>
-        </div>
-      </main>
-    </div>
+          {/* AÇÕES */}
+          <div className="d-flex justify-content-end gap-3">
+            <Button variant="outline-secondary">Descartar</Button>
+            <Button variant="primary">Salvar</Button>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 }
