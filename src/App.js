@@ -2,7 +2,8 @@ import { useState } from "react";
 import Layout from './pages/Layout';
 import Inicial from './pages/Inicial';
 import GestaoEmpresas from './pages/GestaoEmpresas';
-import CadastroPerfilUsuario from './pages/CadastroPerfilUsuario';
+import GestaoPerfis from './pages/GestaoPerfis';
+import GestaoUsuarios from './pages/GestaoUsuarios';
 
 function App() {
   // Estado que controla qual página está sendo exibida
@@ -16,7 +17,9 @@ function App() {
       case 'cadastro-empresa':
         return <GestaoEmpresas />;
       case 'cadastro-usuario':
-        return <CadastroPerfilUsuario />;
+        return <GestaoPerfis />;
+      case 'usuarios':
+        return <GestaoUsuarios />;
       default:
         return <Inicial />;
     }

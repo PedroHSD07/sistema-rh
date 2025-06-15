@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function ListaUsuarios() {
+export default function ListaUsuarios({ irParaCadastro }) {
   const [filtros, setFiltros] = useState({
     cargo: "",
     nome: "",
@@ -21,6 +21,13 @@ export default function ListaUsuarios() {
     setFiltros({ ...filtros, [e.target.name]: e.target.value });
   };
 
+  const handleRemover = (usuario) => {
+    if (window.confirm(`Deseja remover ${usuario.nome}?`)) {
+      alert(`Usuário ${usuario.nome} removido!`);
+      // Aqui entraria sua lógica real de remoção (ex: chamada à API)
+    }
+  };
+
   return (
     <div className="p-4 bg-light min-vh-100">
       {/* Header */}
@@ -33,18 +40,6 @@ export default function ListaUsuarios() {
 
       {/* Card Principal */}
       <section className="bg-white p-4 rounded shadow mb-4">
-        {/* Top actions */}
-        <div className="d-flex flex-wrap justify-content-between align-items-center mb-3">
-          <button className="btn btn-dark btn-sm">+ Adicionar Usuário</button>
-          <div className="d-flex flex-wrap gap-2 align-items-center">
-            <span className="badge bg-secondary fs-6">2023/09/17 <span style={{ cursor: "pointer" }}>✕</span></span>
-            <span className="badge bg-secondary fs-6">Administração <span style={{ cursor: "pointer" }}>✕</span></span>
-            <span className="badge bg-secondary fs-6">Sarah Eastern <span style={{ cursor: "pointer" }}>✕</span></span>
-            <span className="badge bg-secondary fs-6">Ativo <span style={{ cursor: "pointer" }}>✕</span></span>
-            <button className="btn btn-secondary btn-sm ms-2">Arquivo ⭮</button>
-          </div>
-        </div>
-
         {/* Filtros */}
         <form className="row g-3 mb-4">
           <div className="col-md-2">
@@ -95,7 +90,8 @@ export default function ListaUsuarios() {
                   <td>
                     <div className="d-flex gap-2">
                       <button className="btn btn-dark btn-sm">💲 Folha</button>
-                      <button className="btn btn-secondary btn-sm">✏️ Editar</button>
+                      <button className="btn btn-dark btn-sm">✏️ Editar</button>
+                      <button className="btn btn-danger btn-sm" onClick={() => handleRemover(user)}>🗑 Remover</button>
                     </div>
                   </td>
                 </tr>

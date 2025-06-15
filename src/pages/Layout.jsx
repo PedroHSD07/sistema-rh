@@ -19,7 +19,7 @@ export default function Layout({ children, paginaAtiva, setPaginaAtiva }) {
                 className={`btn text-start ${paginaAtiva === 'cadastro-empresa' ? 'btn-secondary' : 'btn-dark'}`}
                 onClick={() => setPaginaAtiva('cadastro-empresa')}
             >
-                Cadastro de Empresas
+                Gestão de Empresas
             </button>
             {/* Botão Cadastro de Perfil */}
             <button 
@@ -27,6 +27,12 @@ export default function Layout({ children, paginaAtiva, setPaginaAtiva }) {
                 onClick={() => setPaginaAtiva('cadastro-usuario')}
             >
                 Cadastro de Perfil de Usuários
+            </button>
+            <button 
+              className={`btn text-start ${paginaAtiva === 'usuarios' ? 'btn-secondary' : 'btn-dark'}`}
+               onClick={() => setPaginaAtiva('usuarios')}
+              >
+                Gestão de Usuários
             </button>
         </nav>
       </aside>

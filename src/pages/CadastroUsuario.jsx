@@ -1,14 +1,6 @@
 import { useState } from "react";
 import { 
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  Card,
-  Navbar,
-  Nav,
-  Badge
+  Container, Row, Col, Form, Button, Card, Navbar, Nav, Badge 
 } from 'react-bootstrap';
 
 export default function CadastroUsuario() {
@@ -18,10 +10,30 @@ export default function CadastroUsuario() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://localhost:5268/api/usuarios', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+
+      if (response.ok) {
+        alert("Usuário cadastrado com sucesso!");
+        setForm({});
+      } else {
+        const errorData = await response.json();
+        alert(`Erro: ${errorData.message || response.statusText}`);
+      }
+    } catch (error) {
+      console.error("Erro ao salvar usuário:", error);
+      alert("Erro ao salvar. Verifique a conexão com o servidor.");
+    }
+  };
+
   return (
     <Container fluid className="px-0">
       <Row className="g-0">
-        {/* Sidebar */}
         <Col md={2} className="bg-dark text-white vh-100 p-3">
           <Navbar.Brand className="text-white mb-4">Gestão de pessoas</Navbar.Brand>
           <Nav className="flex-column">
@@ -31,9 +43,7 @@ export default function CadastroUsuario() {
           </Nav>
         </Col>
 
-        {/* Main Content */}
         <Col md={10} className="p-4">
-          {/* Header */}
           <Row className="mb-4 justify-content-between align-items-center">
             <Col md={6}>
               <p className="text-muted mb-0">Empresa</p>
@@ -59,38 +69,22 @@ export default function CadastroUsuario() {
               <Row>
                 <Col md={3} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="nome" 
-                      placeholder="Nome completo" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="nome" placeholder="Nome completo" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={3} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="nacionalidade" 
-                      placeholder="Nacionalidade" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="nacionalidade" placeholder="Nacionalidade" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={3} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="estadoCivil" 
-                      placeholder="Estado Civil" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="estadoCivil" placeholder="Estado Civil" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={3} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="sexo" 
-                      placeholder="Sexo" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="sexo" placeholder="Sexo" onChange={handleChange} />
                   </Form.Group>
                 </Col>
               </Row>
@@ -104,20 +98,12 @@ export default function CadastroUsuario() {
               <Row>
                 <Col md={6} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="telefone" 
-                      placeholder="Telefone" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="telefone" placeholder="Telefone" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={6} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="email" 
-                      placeholder="E-mail" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="email" placeholder="E-mail" onChange={handleChange} />
                   </Form.Group>
                 </Col>
               </Row>
@@ -131,29 +117,17 @@ export default function CadastroUsuario() {
               <Row>
                 <Col md={4} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="banco" 
-                      placeholder="Banco" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="banco" placeholder="Banco" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={4} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="agencia" 
-                      placeholder="Agência" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="agencia" placeholder="Agência" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={4} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="conta" 
-                      placeholder="Conta" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="conta" placeholder="Conta" onChange={handleChange} />
                   </Form.Group>
                 </Col>
               </Row>
@@ -167,47 +141,27 @@ export default function CadastroUsuario() {
               <Row>
                 <Col md={4} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="salario" 
-                      placeholder="Salário que recebe" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="salario" placeholder="Salário que recebe" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={4} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="complemento" 
-                      placeholder="Complemento" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="complemento" placeholder="Complemento" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={4} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="salarioAdicional" 
-                      placeholder="Salário adicional" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="salarioAdicional" placeholder="Salário adicional" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={4} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="reajuste" 
-                      placeholder="Data do último reajuste" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="reajuste" placeholder="Data do último reajuste" onChange={handleChange} />
                   </Form.Group>
                 </Col>
                 <Col md={4} className="mb-3">
                   <Form.Group>
-                    <Form.Control 
-                      name="tipoSalario" 
-                      placeholder="Tipo do salário" 
-                      onChange={handleChange} 
-                    />
+                    <Form.Control name="tipoSalario" placeholder="Tipo do salário" onChange={handleChange} />
                   </Form.Group>
                 </Col>
               </Row>
@@ -217,7 +171,7 @@ export default function CadastroUsuario() {
           {/* AÇÕES */}
           <div className="d-flex justify-content-end gap-3">
             <Button variant="outline-secondary">Descartar</Button>
-            <Button variant="primary">Salvar</Button>
+            <Button variant="primary" onClick={handleSubmit}>Salvar</Button>
           </div>
         </Col>
       </Row>
