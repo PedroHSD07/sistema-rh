@@ -1,0 +1,22 @@
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 10px;
+}
+
+.info-label {
+  font-weight: 500;
+  color: #6c757d;
+}
+
+.edit-icon {
+  margin-left: 10px;
+  color: #0d6efd;
+  cursor: pointer;
+}
+
+.avatar-profile {
+  font-size: 80px;
+  color: #adb5bd;
+}

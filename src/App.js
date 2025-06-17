@@ -1,9 +1,17 @@
 import { useState } from "react";
+
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 import Layout from './pages/Layout';
 import Inicial from './pages/Inicial';
 import GestaoEmpresas from './pages/GestaoEmpresas';
 import GestaoPerfis from './pages/GestaoPerfis';
 import GestaoUsuarios from './pages/GestaoUsuarios';
+
+//Adicionado por M.Tulio
+import Demonstrativo from './pages/Demonstrativo';
+import Home from './pages/Home';
+import Perfil from './pages/Perfil';
 
 function App() {
   // Estado que controla qual página está sendo exibida
@@ -20,6 +28,14 @@ function App() {
         return <GestaoPerfis />;
       case 'usuarios':
         return <GestaoUsuarios />;
+
+      //Adicionado por M.Tulio
+      case 'demonstrativo':
+        return <Demonstrativo setPaginaAtiva={setPaginaAtiva} />;
+      case 'home':
+        return <Home setPaginaAtiva={setPaginaAtiva} />;
+      case 'perfil':
+        return <Perfil setPaginaAtiva={setPaginaAtiva} />;
       default:
         return <Inicial />;
     }
