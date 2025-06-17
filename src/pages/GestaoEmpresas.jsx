@@ -3,26 +3,39 @@ import ListaEmpresas from './ListaEmpresas';
 import CadastroEmpresa from './CadastroEmpresa';
 
 export default function GestaoEmpresas() {
-  // Estado para controlar a visão atual: 'lista' ou 'cadastro'
-  const [view, setView] = useState('lista');
-  
-  // Função para renderizar o componente correto com base na view
-  const renderView = () => {
-    switch (view) {
-      case 'lista':
-        // Passa a função para mudar para a tela de cadastro
-        return <ListaEmpresas irParaCadastro={() => setView('cadastro')} />;
-      case 'cadastro':
-        // Passa a função para voltar para a tela de lista
-        return <CadastroEmpresa voltarParaLista={() => setView('lista')} />;
-      default:
-        return <ListaEmpresas irParaCadastro={() => setView('cadastro')} />;
-    }
+  const [modo, setModo] = useState('lista'); // 'lista', 'cadastro', 'edicao'
+  const [empresaSelecionada, setEmpresaSelecionada] = useState(null);
+
+  const irParaCadastro = () => {
+    setEmpresaSelecionada(null);
+    setModo('cadastro');
+  };
+
+  const irParaEdicao = (empresa) => {
+    setEmpresaSelecionada(empresa);
+    setModo('edicao');
+  };
+
+  const voltarParaLista = () => {
+    setEmpresaSelecionada(null);
+    setModo('lista');
   };
 
   return (
-    <div>
-      {renderView()}
-    </div>
+    <>
+      {modo === 'lista' && (
+        <ListaEmpresas
+          irParaCadastro={irParaCadastro}
+          irParaEdicao={irParaEdicao}
+        />
+      )}
+
+      {(modo === 'cadastro' || modo === 'edicao') && (
+        <CadastroEmpresa
+          voltarParaLista={voltarParaLista}
+          empresaEditando={empresaSelecionada}
+        />
+      )}
+    </>
   );
 }

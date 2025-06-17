@@ -1,50 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Card, Button } from 'react-bootstrap';
 
-export default function CadastroPerfilUsuario({ voltarParaLista }) {
+export default function CadastroPerfilUsuario({ voltarParaLista, perfilEditando }) {
   const [form, setForm] = useState({
-    nomePerfil: '',
+    nome: '',
     descricao: '',
-    nivelAcesso: ''
+    nivelAcesso: 0
   });
+
+  useEffect(() => {
+    if (perfilEditando) {
+      setForm(perfilEditando);
+    }
+  }, [perfilEditando]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+    setForm({
+      ...form,
+      [name]: name === 'nivelAcesso' ? parseInt(value, 10) || 0 : value
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const url = perfilEditando
+      ? `http://localhost:5268/api/perfil-usuario/${perfilEditando.id}`
+      : 'http://localhost:5268/api/perfil-usuario';
+
+    const method = perfilEditando ? 'PUT' : 'POST';
+
     try {
-      const response = await fetch('http://localhost:5268/api/perfil-usuario', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
       });
+
       if (response.ok) {
-        alert('Perfil cadastrado com sucesso!');
-        setForm({ nomePerfil: '', descricao: '', nivelAcesso: '' });
-        if (voltarParaLista) voltarParaLista();
+        alert(`Perfil ${perfilEditando ? 'atualizado' : 'cadastrado'} com sucesso!`);
+        voltarParaLista();
       } else {
         const errorData = await response.json();
-        alert(`Erro ao cadastrar perfil: ${errorData.message || response.statusText}`);
+        alert(`Erro: ${errorData.message || response.statusText}`);
       }
     } catch (error) {
-      alert('Erro de rede ao tentar salvar o perfil. Verifique o console.');
+      alert('Erro de rede. Veja o console.');
       console.error(error);
     }
   };
 
   return (
     <Container className="p-4">
-      {/* Cabeçalho com botão de voltar e título */}
       <div className="d-flex align-items-center mb-4">
         <Button className="btn btn-light me-3" onClick={voltarParaLista}>
           &larr; Voltar
         </Button>
-        <div>
-          <h1 className="fw-bold h4 m-0">Cadastro de Perfil de Usuário</h1>
-        </div>
+        <h1 className="fw-bold h4 m-0">
+          {perfilEditando ? 'Editar Perfil de Usuário' : 'Cadastro de Perfil de Usuário'}
+        </h1>
       </div>
 
       <Card className="shadow-sm p-4">
@@ -55,8 +70,8 @@ export default function CadastroPerfilUsuario({ voltarParaLista }) {
                 <Form.Label>Nome do Perfil</Form.Label>
                 <Form.Control
                   type="text"
-                  name="nomePerfil"
-                  value={form.nomePerfil}
+                  name="nome"
+                  value={form.nome}
                   onChange={handleChange}
                   required
                 />
@@ -66,7 +81,7 @@ export default function CadastroPerfilUsuario({ voltarParaLista }) {
               <Form.Group>
                 <Form.Label>Nível de Acesso</Form.Label>
                 <Form.Control
-                  type="text"
+                  type="number"
                   name="nivelAcesso"
                   value={form.nivelAcesso}
                   onChange={handleChange}
@@ -91,7 +106,9 @@ export default function CadastroPerfilUsuario({ voltarParaLista }) {
           </Row>
           <div className="d-flex justify-content-end gap-2">
             <Button variant="outline-secondary" type="reset">Descartar</Button>
-            <Button variant="primary" type="submit">Salvar</Button>
+            <Button variant="primary" type="submit">
+              {perfilEditando ? 'Atualizar' : 'Salvar'}
+            </Button>
           </div>
         </Form>
       </Card>

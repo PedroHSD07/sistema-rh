@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-export default function CadastroEmpresa({ voltarParaLista }) {
-  // O estado e as funções de handleChange e handleSubmit permanecem os mesmos
+export default function CadastroEmpresa({ voltarParaLista, empresaEditando }) {
   const [formData, setFormData] = useState({
     nome: '',
     numero: '',
@@ -15,6 +14,12 @@ export default function CadastroEmpresa({ voltarParaLista }) {
       cep: '',
     },
   });
+
+  useEffect(() => {
+    if (empresaEditando) {
+      setFormData(empresaEditando);
+    }
+  }, [empresaEditando]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,6 +42,7 @@ export default function CadastroEmpresa({ voltarParaLista }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const dataToSend = {
       ...formData,
       endereco: {
@@ -45,37 +51,43 @@ export default function CadastroEmpresa({ voltarParaLista }) {
       },
     };
 
+    const url = empresaEditando
+      ? `http://localhost:5268/api/empresas/${empresaEditando.id}`
+      : 'http://localhost:5268/api/empresas';
+
+    const method = empresaEditando ? 'PUT' : 'POST';
+
     try {
-      const response = await fetch('http://localhost:5268/api/empresas', {
-        method: 'POST',
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataToSend),
       });
 
       if (response.ok) {
-        alert('Empresa criada com sucesso!');
-        voltarParaLista(); // Volta para a lista após o sucesso
+        alert(`Empresa ${empresaEditando ? 'atualizada' : 'criada'} com sucesso!`);
+        voltarParaLista();
       } else {
         const errorData = await response.json();
-        alert(`Falha ao criar empresa: ${errorData.message || response.statusText}`);
+        alert(`Erro: ${errorData.message || response.statusText}`);
       }
     } catch (error) {
-      alert('Ocorreu um erro de rede. Verifique o console para mais detalhes.');
+      alert('Erro de rede. Verifique o console para mais detalhes.');
     }
   };
 
   return (
     <div>
-      {/* Cabeçalho com botão de voltar */}
       <div className="d-flex align-items-center mb-4">
         <button className="btn btn-light me-3" onClick={voltarParaLista}>
           &larr; Voltar
         </button>
-        <h1 className="fw-bold m-0 h4">Cadastro de Nova Empresa</h1>
+        <h1 className="fw-bold m-0 h4">
+          {empresaEditando ? 'Editar Empresa' : 'Cadastro de Nova Empresa'}
+        </h1>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow-sm">
-        {/* Dados da Empresa */}
         <fieldset className="mb-4">
           <legend className="h5 fw-semibold mb-3">Dados da Empresa</legend>
           <div className="row g-3">
@@ -90,7 +102,6 @@ export default function CadastroEmpresa({ voltarParaLista }) {
           </div>
         </fieldset>
 
-        {/* Endereço */}
         <fieldset className="mb-4">
           <legend className="h5 fw-semibold mb-3">Endereço</legend>
           <div className="row g-3">
@@ -102,7 +113,7 @@ export default function CadastroEmpresa({ voltarParaLista }) {
               <label htmlFor="endereco-numero" className="form-label">Número</label>
               <input type="number" className="form-control" id="endereco-numero" name="endereco.numero" value={formData.endereco.numero} onChange={handleChange} required />
             </div>
-             <div className="col-md-6">
+            <div className="col-md-6">
               <label htmlFor="bairro" className="form-label">Bairro</label>
               <input type="text" className="form-control" id="bairro" name="endereco.bairro" value={formData.endereco.bairro} onChange={handleChange} required />
             </div>
@@ -115,8 +126,8 @@ export default function CadastroEmpresa({ voltarParaLista }) {
               <input type="text" className="form-control" id="cidade" name="endereco.cidade" value={formData.endereco.cidade} onChange={handleChange} required />
             </div>
             <div className="col-md-3">
-                <label htmlFor="uf" className="form-label">UF</label>
-                <input type="text" className="form-control" id="uf" name="endereco.uf" value={formData.endereco.uf} onChange={handleChange} required maxLength="2" />
+              <label htmlFor="uf" className="form-label">UF</label>
+              <input type="text" className="form-control" id="uf" name="endereco.uf" value={formData.endereco.uf} onChange={handleChange} required maxLength="2" />
             </div>
             <div className="col-md-4">
               <label htmlFor="cep" className="form-label">CEP</label>
@@ -126,10 +137,12 @@ export default function CadastroEmpresa({ voltarParaLista }) {
         </fieldset>
 
         <div className="d-flex justify-content-end gap-2">
-            <button type="button" className="btn btn-outline-secondary" onClick={voltarParaLista}>
-              Cancelar
-            </button>
-            <button type="submit" className="btn btn-primary px-4">Salvar Empresa</button>
+          <button type="button" className="btn btn-outline-secondary" onClick={voltarParaLista}>
+            Cancelar
+          </button>
+          <button type="submit" className="btn btn-primary px-4">
+            {empresaEditando ? 'Atualizar Empresa' : 'Salvar Empresa'}
+          </button>
         </div>
       </form>
     </div>
