@@ -35,8 +35,6 @@ export default function ListaEmpresas({ irParaCadastro }) {
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="h4 fw-bold m-0">Empresas Cadastradas</h1>
         <div className="d-flex gap-2">
-          <input type="text" className="form-control" placeholder="Buscar por nome..." />
-          <button className="btn btn-secondary">Buscar</button>
           <button className="btn btn-primary" onClick={irParaCadastro}>
             + Cadastrar
           </button>

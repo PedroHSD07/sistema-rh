@@ -16,7 +16,7 @@ export default function CadastroPerfilUsuario({ voltarParaLista }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5268/api/perfis', {
+      const response = await fetch('http://localhost:5268/api/perfil-usuario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
